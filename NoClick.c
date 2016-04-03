@@ -11,10 +11,12 @@ ULONG __abox__ = 1;
 #endif
 
 #if defined(__amigaos4__)
+// Must be named _start in AmigaOS4 binaries
 int32 _start(STRPTR args, int32 argsLength, struct ExecBase *sysBase) {
 	struct ExecIFace *IExec = (struct ExecIFace *) sysBase->MainInterface;
 	IExec->Obtain();
 #else
+// In 68k AmigaOS and MorphOS binaries, the first code found will be executed so the name does not matter
 LONG NoClick(void) {
 	struct ExecBase *SysBase = *(struct ExecBase **) 4;
 #endif
