@@ -1,11 +1,23 @@
-#include <proto/exec.h>
 #include <exec/exec.h>
 #include <dos/dos.h>
 #include <devices/trackdisk.h>
 
-UBYTE *Version = "\0$VER: NoClick 1.0 (13.12.2015) by Patrik Axelsson\0";
+#include <proto/exec.h>
 
-int main(void) {
+UBYTE *Version = "\0$VER: NoClick 1.1 (3.4.2016) by Patrik Axelsson\0";
+
+#if defined(__MORPHOS__)
+ULONG __abox__ = 1;
+#endif
+
+#if defined(__amigaos4__)
+int32 _start(STRPTR args, int32 argsLength, struct ExecBase *sysBase) {
+	struct ExecIFace *IExec = (struct ExecIFace *) sysBase->MainInterface;
+#else
+LONG NoClick(void) {
+	struct ExecBase *SysBase = *(struct ExecBase **) 4;
+#endif
+	
 	struct MsgPort *trackDiskPort = CreateMsgPort();
 	if(NULL != trackDiskPort) {
 		struct IOExtTD *trackDiskReq = (struct IOExtTD *) CreateIORequest(trackDiskPort, sizeof(struct IOExtTD));
@@ -23,5 +35,10 @@ int main(void) {
 		}
 		DeleteMsgPort(trackDiskPort);
 	}
+	
+#if defined(__amigaos4__)
+	IExec->Release();
+#endif
+	
 	return RETURN_OK;
 }
