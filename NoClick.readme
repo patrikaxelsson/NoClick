@@ -3,7 +3,7 @@ Author: Patrik Axelsson
 Uploader: 
 Type: disk/misc
 Architecture: m68k-amigaos >= 2.0.4; ppc-amigaos >= 4.0; ppc-morphos >= 1.4.5
-Version: 1.0
+Version: 1.1
 
 A very small and extremely simple utility for enabling the NoClick
 functionality in trackdisk.device V36+.
@@ -20,3 +20,10 @@ flag for all units (0-3).
 If running this utility does not silence the clicking of a drive, do not use it
 as it might cause mechanical damage to the drive.
 
+
+History:
+Version 1.1 (2016-04-03):
+- Made it smaller by handling the startup by ourselves.
+
+Version 1.0 (2015-12-13):
+- Initial release.
