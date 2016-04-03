@@ -13,6 +13,7 @@ ULONG __abox__ = 1;
 #if defined(__amigaos4__)
 int32 _start(STRPTR args, int32 argsLength, struct ExecBase *sysBase) {
 	struct ExecIFace *IExec = (struct ExecIFace *) sysBase->MainInterface;
+	IExec->Obtain();
 #else
 LONG NoClick(void) {
 	struct ExecBase *SysBase = *(struct ExecBase **) 4;
