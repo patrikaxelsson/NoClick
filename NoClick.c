@@ -1,5 +1,6 @@
 #include <exec/exec.h>
-#include <dos/dos.h>
+#include <dos/dosextens.h>
+#include <workbench/startup.h>
 #include <devices/trackdisk.h>
 
 #include <proto/exec.h>
@@ -20,6 +21,14 @@ __saveds int32 _start(STRPTR args, int32 argsLength, struct ExecBase *sysBase) {
 __saveds LONG NoClick(void) {
 	struct ExecBase *SysBase = *(struct ExecBase **) 4;
 #endif
+
+	struct WBStartup *wbStartupMsg = NULL;
+	struct Process *thisProcess = (struct Process *) FindTask(NULL);
+	if(MKBADDR(NULL) == thisProcess->pr_CLI) {
+		// If started from Workbench, get the startup message
+		WaitPort(&thisProcess->pr_MsgPort);
+		wbStartupMsg = (struct WBStartup *) GetMsg(&thisProcess->pr_MsgPort);
+	}
 	
 	struct MsgPort *trackDiskPort = CreateMsgPort();
 	if(NULL != trackDiskPort) {
@@ -38,7 +47,13 @@ __saveds LONG NoClick(void) {
 		}
 		DeleteMsgPort(trackDiskPort);
 	}
-	
+
+	if(NULL != wbStartupMsg) {
+		Forbid();
+		// If started from Workbench, reply to the startup message
+		ReplyMsg((struct Message *) wbStartupMsg);
+	}
+
 #if defined(__amigaos4__)
 	IExec->Release();
 #endif

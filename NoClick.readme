@@ -17,13 +17,14 @@ I have also included the source code and makefile as it might help someone.
 NoClick takes no arguments and will enable NoClick by setting the TDPF_NOCLICK
 flag for all units (0-3).
 
-If running this utility does not silence the clicking of a drive, do not use it
-as it might cause mechanical damage to the drive.
+If running this utility does not silence the clicking of a drive, do not use
+it as it might cause mechanical damage to the drive.
 
 
 History:
 Version 1.1 (2016-04-03):
-- Made it smaller by handling the startup by ourselves.
+- Add own startup code including workbench startup handling to avoid unecessary
+  crash if for some reason given an icon and started from workbench.
 
 Version 1.0 (2015-12-13):
 - Initial release.
