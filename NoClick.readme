@@ -23,9 +23,9 @@ it as it might cause mechanical damage to the drive.
 
 History:
 Version 1.1 (2016-04-12):
-- Add own startup code including workbench startup handling to avoid
-  unecessary crashes if for some reason given an icon and started from
-  workbench.
+- Use own startup code to decrease the executable sizes a bit.
+- Handle Workbench startup message to avoid unecessary crash if it for some
+  reason is given an icon and started from Workbench.
 
 Version 1.0 (2015-12-13):
 - Initial release.
