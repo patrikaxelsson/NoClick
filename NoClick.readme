@@ -4,6 +4,7 @@ Uploader:
 Type: disk/misc
 Architecture: m68k-amigaos >= 2.0.4; ppc-amigaos >= 4.0; ppc-morphos >= 1.4.5
 Version: 1.1
+Replaces: disk/misc/NoClick.lha
 
 A very small and extremely simple utility for enabling the NoClick
 functionality in trackdisk.device V36+.
