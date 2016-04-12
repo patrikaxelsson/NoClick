@@ -5,7 +5,7 @@
 
 #include <proto/exec.h>
 
-UBYTE *Version = "\0$VER: NoClick 1.1 (3.4.2016) by Patrik Axelsson\0";
+UBYTE *Version = "\0$VER: NoClick 1.1 (12.4.2016) by Patrik Axelsson\0";
 
 #if defined(__MORPHOS__)
 ULONG __abox__ = 1;
