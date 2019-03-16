@@ -5,7 +5,7 @@
 
 #include <proto/exec.h>
 
-UBYTE *Version = "\0$VER: NoClick 1.1 (12.4.2016) by Patrik Axelsson\0";
+const char Version[] = "$VER: NoClick 1.2 (16.3.2019) by Patrik Axelsson";
 
 #if defined(__MORPHOS__)
 ULONG __abox__ = 1;
