@@ -3,7 +3,7 @@ Author: Patrik Axelsson
 Uploader: 
 Type: disk/misc
 Architecture: m68k-amigaos >= 2.0.4; ppc-amigaos >= 4.0; ppc-morphos >= 1.4.5
-Version: 1.1
+Version: 1.2
 Replaces: disk/misc/NoClick.lha
 
 A very small and extremely simple utility for enabling the NoClick
@@ -23,6 +23,14 @@ it as it might cause mechanical damage to the drive.
 
 
 History:
+Version 1.2 (2019-03-16):
+- Now does a CreateIORequest() for every OpenDevice() to be more correct.
+- Decreased the executable sizes a respectable amount by not creating a
+  global pointer for the version string. This used to trigger the creation
+  of an additional data hunk just for the pointer.
+- Now using the compiler optimization level which gives the smallest
+  executable sizes.
+
 Version 1.1 (2016-04-12):
 - Use own startup code to decrease the executable sizes a bit.
 - Handle Workbench startup message to avoid unecessary crash if it for some
