@@ -5,31 +5,15 @@
 
 #include <proto/exec.h>
 
-const char Version[] = "$VER: NoClick 1.2 (16.3.2019) by Patrik Axelsson";
-
-#if defined(__MORPHOS__)
-ULONG __abox__ = 1;
-#endif
-
 #if defined(__amigaos4__)
-// Must be named _start in AmigaOS4 binaries.
-__saveds int32 _start(STRPTR args, int32 argsLength, struct ExecBase *sysBase) {
-	struct ExecIFace *IExec = (struct ExecIFace *) sysBase->MainInterface;
-	IExec->Obtain();
+void NoClick(struct ExecIFace *IExec) {
+#elif defined(__MORPHOS__)
+void NoClick(struct ExecBase *SysBase) {
 #else
-// In 68k AmigaOS and MorphOS binaries, the symbol name doesn't matter, it just have to be first.
-__saveds LONG NoClick(void) {
-	struct ExecBase *SysBase = *(struct ExecBase **) 4;
+// Putting SysBase in a6 is not necessary here, it is just to make vbcc
+// produce simpler/better code.
+void NoClick(__reg("a6") struct ExecBase *SysBase) {
 #endif
-
-	struct WBStartup *wbStartupMsg = NULL;
-	struct Process *thisProcess = (struct Process *) FindTask(NULL);
-	if(MKBADDR(NULL) == thisProcess->pr_CLI) {
-		// If started from Workbench, get the startup message
-		WaitPort(&thisProcess->pr_MsgPort);
-		wbStartupMsg = (struct WBStartup *) GetMsg(&thisProcess->pr_MsgPort);
-	}
-	
 	struct MsgPort *trackDiskPort = CreateMsgPort();
 	for(ULONG i = 0; i < NUMUNITS; i++) {
 		struct IOExtTD *trackDiskReq = (struct IOExtTD *) CreateIORequest(trackDiskPort, sizeof(struct IOExtTD));
@@ -45,16 +29,4 @@ __saveds LONG NoClick(void) {
 		}
 	}
 	DeleteMsgPort(trackDiskPort);
-
-	if(NULL != wbStartupMsg) {
-		Forbid();
-		// If started from Workbench, reply to the startup message
-		ReplyMsg((struct Message *) wbStartupMsg);
-	}
-
-#if defined(__amigaos4__)
-	IExec->Release();
-#endif
-	
-	return RETURN_OK;
 }
