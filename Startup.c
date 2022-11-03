@@ -15,17 +15,17 @@ ULONG __abox__ = 1;
 
 #if defined(__amigaos4__)
 // Must be named _start in AmigaOS4 binaries.
-__saveds int32 _start(STRPTR args, int32 argsLength, struct ExecBase *sysBase) {
+int32 _start(STRPTR args, int32 argsLength, struct ExecBase *sysBase) {
 	struct ExecIFace *IExec = (struct ExecIFace *) sysBase->MainInterface;
 	IExec->Obtain();
 #else
 // In 68k AmigaOS and MorphOS binaries, the symbol name doesn't matter, it just have to be first.
-__saveds LONG Startup(void) {
+LONG Startup(void) {
 	struct ExecBase *SysBase = *(struct ExecBase **) 4;
 #endif
 
 	struct WBStartup *wbStartupMsg = NULL;
-	struct Process *thisProcess = (struct Process *) FindTask(NULL);
+	struct Process *thisProcess = (void *) FindTask(NULL);
 	if (0 == thisProcess->pr_CLI) {
 		// If started from Workbench, get the startup message
 		WaitPort(&thisProcess->pr_MsgPort);

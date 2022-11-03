@@ -7,18 +7,18 @@
 #include "NoClick.h"
 
 #if defined(__amigaos4__)
-__saveds void ResidentInit(void *zero, BPTR segList, struct ExecBase *sysBase) {
+void ResidentInit(void *zero, BPTR segList, struct ExecBase *sysBase) {
 	struct ExecIFace *IExec = (void *) sysBase->MainInterface;
 	IExec->Obtain();
 	NoClick(IExec);
 	IExec->Release();
 }
 #elif defined(__MORPHOS__)
-__saveds void ResidentInit(void *zero, BPTR segList, struct ExecBase *SysBase) {
+void ResidentInit(void *zero, BPTR segList, struct ExecBase *SysBase) {
 	NoClick(SysBase);
 }
 #else
-__saveds void ResidentInit(__reg("d0") void *zero, __reg("a0") BPTR segList, __reg("a6") struct ExecBase *SysBase) {
+void ResidentInit(__reg("d0") void *zero, __reg("a0") BPTR segList, __reg("a6") struct ExecBase *SysBase) {
 	NoClick(SysBase);
 }
 #endif

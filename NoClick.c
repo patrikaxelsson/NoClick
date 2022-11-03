@@ -15,17 +15,17 @@ void NoClick(struct ExecBase *SysBase) {
 void NoClick(__reg("a6") struct ExecBase *SysBase) {
 #endif
 	struct MsgPort *trackDiskPort = CreateMsgPort();
-	for(ULONG i = 0; i < NUMUNITS; i++) {
-		struct IOExtTD *trackDiskReq = (struct IOExtTD *) CreateIORequest(trackDiskPort, sizeof(struct IOExtTD));
-		if(NULL != trackDiskReq) {
-			if(0 == OpenDevice(TD_NAME, i, (struct IORequest *) trackDiskReq, 0)) {
-				struct TDU_PublicUnit *publicUnit = (struct TDU_PublicUnit *) trackDiskReq->iotd_Req.io_Unit;
+	for (int unitNum = 0; unitNum < NUMUNITS; unitNum++) {
+		struct IOExtTD *trackDiskReq = (void *) CreateIORequest(trackDiskPort, sizeof(struct IOExtTD));
+		if (NULL != trackDiskReq) {
+			if (0 == OpenDevice(TD_NAME, unitNum, (void *) trackDiskReq, 0)) {
+				struct TDU_PublicUnit *publicUnit = (void *) trackDiskReq->iotd_Req.io_Unit;
 				Forbid();
 				publicUnit->tdu_PubFlags |= TDPF_NOCLICK;
 				Permit();
-				CloseDevice((struct IORequest *) trackDiskReq);
+				CloseDevice((void *) trackDiskReq);
 			}
-			DeleteIORequest((struct IORequest *) trackDiskReq);
+			DeleteIORequest((void *) trackDiskReq);
 		}
 	}
 	DeleteMsgPort(trackDiskPort);
