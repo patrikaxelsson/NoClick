@@ -1,40 +1,59 @@
 Short: Multiplatform NoClick enabler
 Author: Patrik Axelsson
-Uploader: 
+Uploader: patrik.bo@gmail.com
 Type: disk/misc
-Architecture: m68k-amigaos >= 2.0.4; ppc-amigaos >= 4.0; ppc-morphos >= 1.4.5
-Version: 1.2
+Architecture: m68k-amigaos >= 2.0.0; ppc-amigaos >= 4.0; ppc-morphos >= 1.4.5
+Version: 2.0
+URL: https://github.com/patrikaxelsson/NoClick
 Replaces: disk/misc/NoClick.lha
 
-A very small and extremely simple utility for enabling the NoClick
-functionality in trackdisk.device V36+.
+A small and simple utility for enabling the NoClick functionality of
+trackdisk.device V36+ in AmigaOS 2.0+.
 
-This is definately not the first utility for enabling NoClick, but the unique
-feature of this one is that there are also native binaries available for both
-AmigaOS4 and MorphOS running on classic Amigas with PowerUP accelerators.
+This is definately not the first utility for enabling NoClick, but the
+unique feature of this one is that there are also native binaries available
+for both AmigaOS4 and MorphOS running on classic Amigas with PowerUP
+accelerators.
 
-I have also included the source code and makefile as it might help someone.
-
-NoClick takes no arguments and will enable NoClick by setting the TDPF_NOCLICK
-flag for all units (0-3).
+NoClick needs no arguments and will enable NoClick by attempting to set the
+TDPF_NOCLICK flag for all available trackdisk units.
 
 If running this utility does not silence the clicking of a drive, do not use
 it as it might cause mechanical damage to the drive.
 
 
+Installation:
+
+Start NoClick from Startup-Sequence, User-Startup, WBStartup, somewhere
+else, or load it as a resident module to have it enabled even if you
+boot without Startup-Sequence or something other than your normal system
+drive.
+
+There are a number of options for loading it as a resident module:
+ - 68k AmigaOS: Use LoadModule, BlizKick, RemApollo or similar software
+ - MorphOS: Copy NoClick.mos to SYS:Boot/ExtModules/NoClick
+ - PPC AmigaOS: Copy NoClick.os4 to SYS:Kickstart/NoClick and add the
+   line "MODULE Kickstart/NoClick" without quotes to the file
+   SYS:Kickstart/KickLayout-<YourAmigaModel>
+
+
 History:
-Version 1.2 (2019-03-16):
-- Now does a CreateIORequest() for every OpenDevice() to be more correct.
-- Decreased the executable sizes a respectable amount by not creating a
-  global pointer for the version string. This used to trigger the creation
-  of an additional data hunk just for the pointer.
-- Now using the compiler optimization level which gives the smallest
-  executable sizes.
 
-Version 1.1 (2016-04-12):
-- Use own startup code to decrease the executable sizes a bit.
-- Handle Workbench startup message to avoid unecessary crash if it for some
-  reason is given an icon and started from Workbench.
+2.0 (2022-11-03):
+ - Make it work as both an executable and resident module.
 
-Version 1.0 (2015-12-13):
-- Initial release.
+1.2 (2019-03-16):
+ - Now does a CreateIORequest() for every OpenDevice() to be more correct.
+ - Decreased the executable sizes a respectable amount by not creating a
+   global pointer for the version string. This used to trigger the creation
+   of an additional data hunk just for the pointer.
+ - Now using the compiler optimization level which gives the smallest
+   executable sizes.
+
+1.1 (2016-04-12):
+ - Use own startup code to decrease the executable sizes a bit.
+ - Handle Workbench startup message to avoid unecessary crash if it for some
+   reason is given an icon and started from Workbench.
+
+1.0 (2015-12-13):
+ - Initial release.
